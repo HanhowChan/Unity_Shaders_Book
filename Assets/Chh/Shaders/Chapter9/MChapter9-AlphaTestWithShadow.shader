@@ -77,5 +77,5 @@ Shader "Custom/MChapter9-AlphaTestWithShadow"
 				ENDCG
 			}
 		}
-			Fallback "VertexLit"
+			Fallback "Transparent/Cutout/VertexLit"
 }

@@ -23,6 +23,7 @@ Shader "Custom/MChapter8-AlphaTestBothSided"
 				#pragma vertex vert
 				#pragma fragment frag
 				#include "Lighting.cginc"
+				#include "AutoLight.cginc"
 
 				fixed4 _Color;
 				sampler2D _MainTex;
@@ -42,6 +43,7 @@ Shader "Custom/MChapter8-AlphaTestBothSided"
 					float3 worldNormal:TEXCOORD0;
 					float3 worldPos:TEXCOORD1;
 					float2 uv:TEXCOORD2;
+					SHADOW_COORDS(3)
 				};
 
 				v2f vert(a2v v)
@@ -51,6 +53,7 @@ Shader "Custom/MChapter8-AlphaTestBothSided"
 					o.worldNormal = UnityObjectToWorldNormal(v.normal);
 					o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 					o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+					TRANSFER_SHADOW(o);
 					return o;
 				}
 
@@ -69,7 +72,8 @@ Shader "Custom/MChapter8-AlphaTestBothSided"
 					fixed3 albedo = texColor.rgb * _Color.rgb;
 					fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 					fixed diffuse = _LightColor0.rgb * albedo * max(0, dot(worldNormal, worldLightDir));
-					return fixed4(ambient + diffuse, 1.0);
+					UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
+					return fixed4(ambient + diffuse * atten, 1.0);
 				}
 
 				ENDCG
