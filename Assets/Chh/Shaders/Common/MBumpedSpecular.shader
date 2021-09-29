@@ -23,8 +23,30 @@
     
             fixed4 _Color;
             sampler2D _MainTex;
+            float4 _MainTex_ST;
+            sampler2D _BumpMap;
+            float4 _BumpMap_ST;
+            float _BumpScale;
+            fixed4 _Specular;
+            float _Gloss;
 
-    
+            struct a2v
+            {
+                float4 vertex:POSITION;
+                float3 normal:NORMAL;
+                float3 tangent:TANGENT;
+                float4 texcoord:TEXCOORD0;
+            };
+
+            struct v2f
+            {
+                float4 pos:SV_POSITION;
+                float4 uv:TEXCOORD0;
+                float4 TtoW0:TEXCOORD1;
+                float4 TtoW1:TEXCOORD2;
+                float4 TtoW2:TEXCOORD3;
+                SHADOW_COORDS(4);
+            };
             ENDCG
         }
     }
