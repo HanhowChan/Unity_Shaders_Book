@@ -5,14 +5,15 @@
         _Color("Color Tint", Color) = (1, 1, 1, 1)  // 反射颜色
         _MainTex("Main Tex", 2D) = "white" {}   // 主贴图
         _BumpMap("Normal Map", 2D) = "bump" {}  // 法线贴图
-        _Specular("Specular Color", Color) = (1,1,1,1)  // 高光反色颜色
+        _Specular("Specular Color", Color) = (1,1,1,1)  // 高光反射颜色
         _Gloss("Gloss", Range(8.0, 256)) = 20   // 反射系数
-        _AlphaScale("Alpha Scale",Range(0, 1)) = 1;
+        _AlphaScale("Alpha Scale",Range(0, 1)) = 1  //透明度
     }
 
     SubShader
     {
-        Tags{"RenderType" = "Opaque" "Queue" = "Geometry"}
+        //渲染类型
+        Tags{"RenderType" = "Opaque" "Queue" = "Transparent"}   //渲染队列设置为Transparent;将在Geometry和AlphaTest队列中的物体渲染后,再按从后往前的顺序进行渲染;任何使用了透明度混合的物体都应该使用该队列
         Pass
         {
             Tags{"LightMode" = "ForwardBase"}

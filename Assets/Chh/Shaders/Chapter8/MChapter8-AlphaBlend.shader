@@ -6,17 +6,24 @@ Shader "Custom/MChapter8-AlphaBlend"
 	{
 		_Color("Main Tint", Color) = (1,1,1,1)
 		_MainTex("Main Tex", 2D) = "white" {}
-		_AlphaScale("Alpha Scale", Range(0, 1)) = 1
+		_AlphaScale("Alpha Scale", Range(0, 1)) = 1	//1.增加_AlphaScale用于在透明纹理的基础上控制政体的透明度
 	}
 
 	SubShader
 	{
+		/*将Queue标签设置为Transparent,设置渲染队列为透明度混合使用的Transparent队列;
+		* 设置IgnoreProjector标签为True,使该Shader不会受到投影器(Projectors)的影响;
+		* RenderType标签设置为Transparent,让Unity把这个Shader归入到提前定义的组,用来指明该Shader是一个使用了透明度混合的Shader;
+		*/
 		Tags{"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
 
 		Pass
 		{
+			//设置LightMode标签为ForwardBase,让Unity能够按前向渲染路径的方式为Shader正确提供各个光照变量
 			Tags{"LightMode" = "ForwardBase"}
+			//关闭深度写入,让透明物体片元背后的片元也能参与颜色混合
 			ZWrite Off
+			//设置颜色混合模式DstColor_new = SrcColor.a * SrcColor.rgb + (1 - SrcColor.a) * DstColor_old.rgb 
 			Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM
@@ -62,6 +69,7 @@ Shader "Custom/MChapter8-AlphaBlend"
 				fixed3 albedo = texColor.rgb * _Color.rgb;
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 				fixed diffuse = _LightColor0.rgb * albedo * max(0, dot(worldNormal, worldLightDir));
+				//设置片元着色器返回值中的透明通道,必须使用Blend命令打开混合后,此处设置透明度通道才有意义,否则不会产生影响
 				return fixed4(ambient + diffuse, texColor.a * _AlphaScale);
 			}
 

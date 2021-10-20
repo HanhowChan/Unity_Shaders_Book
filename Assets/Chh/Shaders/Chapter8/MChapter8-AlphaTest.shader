@@ -6,15 +6,23 @@ Shader "Custom/MChapter8-AlphaTest"
 	{
 		_Color("Main Tint", Color) = (1,1,1,1)
 		_MainTex("Main Tex", 2D) = "white" {}
-		_Cutoff("Alpha Cutoff", Range(0, 1)) = 0.5
+		_Cutoff("Alpha Cutoff", Range(0, 1)) = 0.5	//要剔除的片元的透明度的阈值
 	}
 
 	SubShader
 	{
+		/*	1.设置渲染队列"Queue"标签为透明度测试使用的渲染队列"AlphaTest";
+			设置IgnoreProjector标签为True,使该Shader不受投影器(Projectors)影响;
+			RenderType标签可以让Unity把这个Shader归入到提前定义的组(此处就是TransparentCutout组),以指明
+			该Shader是一个使用了透明度测试的Shader;
+		*/
 		Tags{"Queue" = "AlphaTest" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout"}
 	
 		Pass
 		{
+			/*	2.LightMode标签是Pass标签中的一种,用于定义该Pass在Unity的光照流水线中的角色,只有定义了正确的LightMode,
+				我们才能正确得到一些Unity的内置光照变量;
+			*/
 			Tags{"LightMode" = "ForwardBase"}
 	
 			CGPROGRAM
@@ -58,7 +66,7 @@ Shader "Custom/MChapter8-AlphaTest"
 				fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				fixed4 texColor = tex2D(_MainTex, i.uv);
 				// Alpha test
-				clip(texColor.a - _Cutoff);
+				clip(texColor.a - _Cutoff);	//3.判断texColor.a - _Cutoff是否为负数,是则舍弃该片元的输出(return出去)
 				// Equal to
 				// if((texColor.a - _Cutoff) < 0.0)
 				//{

@@ -70,7 +70,7 @@
                 float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
                 fixed3 lightDir = normalize(UnityWorldSpaceLightDir(worldPos));
                 fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
-                // 根据法线纹理获取法向量
+                // 根据法线纹理获取法向量 
                 fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));    //法线纹理一般存储的是切线空间的法向量
                 bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));    //计算世界空间中的法向量
                 fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
