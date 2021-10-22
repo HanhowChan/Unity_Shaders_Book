@@ -18,9 +18,10 @@
         {
             Tags{"LightMode" = "ForwardBase"}
             CGPROGRAM
+            //编译命令
             #pragma multi_compile_fwdbase
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert //声明顶点着色器为vert
+            #pragma fragment frag   //声明片元着色器为frag
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
             #include "AutoLight.cginc"
