@@ -72,7 +72,7 @@
                 fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
                 // 根据法线纹理获取法向量 
                 fixed3 bump = UnpackNormal(tex2D(_BumpMap, i.uv.zw));    //法线纹理一般存储的是切线空间的法向量
-                bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));    //计算世界空间中的法向量
+                bump = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));    //计算世界空间中的法向量(将法向量从切线空间转换到世界空间)
                 fixed3 albedo = tex2D(_MainTex, i.uv.xy).rgb * _Color.rgb;
                 fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
                 fixed3 diffuse = _LightColor0.rgb * albedo * max(0, dot(bump, lightDir));

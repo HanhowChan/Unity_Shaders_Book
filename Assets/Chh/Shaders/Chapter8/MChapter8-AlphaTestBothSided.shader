@@ -17,6 +17,11 @@ Shader "Custom/MChapter8-AlphaTestBothSided"
 			{
 				Tags{"LightMode" = "ForwardBase"}
 				// Turn off culling
+				/*Cull Back | Front | Off
+				* Back:剔除模型背面的渲染图元,背对着摄像机的渲染图元不会被渲染
+				* Front:剔除模型正面的渲染图元,朝向摄像机的渲染图元不会被渲染
+				* Off:关闭剔除功能,所有的渲染图元都会被渲染
+				*/
 				Cull Off
 
 				CGPROGRAM
