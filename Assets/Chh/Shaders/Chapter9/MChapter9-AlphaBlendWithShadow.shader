@@ -65,7 +65,7 @@
 					fixed3 albedo = texColor.rgb * _Color.rgb;
 					fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
 					fixed diffuse = _LightColor0.rgb * albedo * max(0, dot(worldNormal, worldLightDir));
-					UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);
+					UNITY_LIGHT_ATTENUATION(atten, i, i.worldPos);	//使用Unity内置宏同时计算阴影值和光照衰减因子
 					return fixed4(ambient + diffuse * atten, texColor.a * _AlphaScale);
 				}
 
