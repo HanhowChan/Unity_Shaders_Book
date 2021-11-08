@@ -25,13 +25,13 @@
 
             struct a2v
             {
-                float4 vertex;
-                float3 normal;
+                float4 vertex:POSITION;
+                float3 normal:NORMAL;
             };
 
             struct v2f
             {
-                float4 pos:SV_Target;
+                float4 pos:SV_POSITION;
                 float3 worldPos:TEXCOORD0;
                 fixed3 worldNormal : TEXCOORD1;
                 fixed3 worldViewDir : TEXCOORD2;
@@ -62,11 +62,12 @@
                 fixed3 reflection = texCUBE(_Cubemap, i.worldRefl).rgb;
                 fixed3 fresnel = _FresnelScale + (1 - _FresnelScale) * pow(1 - dot(worldViewDir, worldNormal), 5);
                 fixed3 diffuse = _LightColor0.rgb * _Color.rgb * max(0, dot(worldNormal, worldLightDir));
-
+                fixed3 color = ambient + lerp(diffuse, reflection, saturate(fresnel)) * atten;
+                return fixed4(color, 1.0);
             }
 
             ENDCG
         }
     }
-    FallBack "Diffuse"
+    FallBack "Reflective/VertexLit"
 }

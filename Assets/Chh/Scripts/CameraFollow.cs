@@ -5,12 +5,12 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour {
 
     public Transform target;
-    public float distanceH = 4f;
+    public float distanceH = 1f;
     public float distanceV = 1.5f;
-    public float smoothSpeed = 10f; //平滑参数
+    public float smoothSpeed = 100f; //平滑参数
 
-    public float cameraMoveSpeed = 10f;
-	public float cameraRotSpeed = 45f;
+    public float cameraMoveSpeed = 100f;
+	public float cameraRotSpeed = 135f;
 	public float maxRotX = 90f;	//相机最大pitch角
 	public float minRotX = -20f;    //相机最小pitch角
 	public float maxDistanceH = 6.5f;		//相机距主角最大距离
