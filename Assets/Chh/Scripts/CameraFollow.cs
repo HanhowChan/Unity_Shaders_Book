@@ -71,4 +71,5 @@ public class CameraFollow : MonoBehaviour {
 		nextpos = this.transform.forward * -1 * distanceC + Vector3.up * distanceV + target.position;
         this.transform.position = Vector3.Lerp(this.transform.position, nextpos, smoothSpeed * Time.deltaTime); //平滑插值
     }
+
 }
